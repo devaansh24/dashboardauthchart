@@ -1,0 +1,305 @@
+import React, { useState } from "react";
+import data from "../filedata/jsondata";
+import "./Home.css";
+import {
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  LineChart,
+  Line,
+  ScatterChart,
+  Scatter,
+  AreaChart,
+  Area,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar,
+} from "recharts";
+import { Row, Col } from "react-bootstrap";
+
+const Home = () => {
+  const [filteredData, setFilteredData] = useState(data);
+  const [selectedSource, setSelectedSource] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedRelevance, setSelectedRelevance] = useState("");
+
+  // Apply filters to the data
+  const applyFilters = () => {
+    let filtered = data;
+
+    if (selectedSource) {
+      filtered = filtered.filter((item) => item.source === selectedSource);
+    }
+
+    if (selectedCountry) {
+      filtered = filtered.filter((item) => item.country === selectedCountry);
+    }
+
+    if (selectedRelevance) {
+      filtered = filtered.filter(
+        (item) => item.relevance === selectedRelevance
+      );
+    }
+
+    setFilteredData(filtered);
+  };
+
+  return (
+    <>
+      <div className="outer__main__box">
+        <div className="filter__box">
+          <div className="filter__box__items">
+            <label>
+              Source:
+              <select
+                value={selectedSource}
+                onChange={(e) => setSelectedSource(e.target.value)}
+              >
+                <option value="">All Sources</option>
+                {data
+                  .map((item) => item.source)
+                  .filter((source) => source !== "")
+                  .sort()
+                  .map((source) => (
+                    <option key={source} value={source}>
+                      {source}
+                    </option>
+                  ))}
+              </select>
+            </label>
+
+            <label>
+              Country:
+              <select
+                value={selectedCountry}
+                onChange={(e) => setSelectedCountry(e.target.value)}
+              >
+                <option value="">All Countries</option>
+                {data
+                  .map((item) => item.country)
+                  .filter((country) => country !== "")
+                  .sort()
+                  .map((country) => (
+                    <option key={country} value={country}>
+                      {country}
+                    </option>
+                  ))}
+              </select>
+            </label>
+
+            <label>
+              Relevance:
+              <select
+                value={selectedRelevance}
+                onChange={(e) => setSelectedRelevance(e.target.value)}
+              >
+                <option value="">All Relevance Levels</option>
+                {data
+                  .map((item) => item.relevance)
+                  .filter((relevance) => relevance !== "")
+                  .sort()
+                  .map((relevance) => (
+                    <option key={relevance} value={relevance}>
+                      {relevance}
+                    </option>
+                  ))}
+              </select>
+            </label>
+
+            <button onClick={applyFilters}>Apply Filters</button>
+          </div>
+        </div>
+
+        <div className="charts__box">
+          <h1>Dashboard</h1>
+
+          <Row>
+            <Col>
+              <div className="chart__body">
+                <h2>Energy Intensity by Sector</h2>
+                <BarChart width={600} height={400} data={filteredData}>
+                  <Bar dataKey="intensity" fill="#8884d8" />
+                </BarChart>
+              </div>
+            </Col>
+          </Row>
+        </div>
+
+        <div className="charts__box">
+          <h1>Charts</h1>
+
+          <Row>
+            <Col>
+              <div className="chart__body">
+                <h2>Relevance by Sector</h2>
+                <PieChart width={600} height={400}>
+                  <Pie
+                    data={filteredData}
+                    dataKey="relevance"
+                    nameKey="sector"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={100}
+                    fill="#8884d8"
+                  />
+                </PieChart>
+              </div>
+            </Col>
+
+            <Col>
+              <div className="chart__body">
+                <h2>Likelihood by Sector</h2>
+                <LineChart width={600} height={400} data={filteredData}>
+                  <Line type="monotone" dataKey="likelihood" stroke="#8884d8" />
+                </LineChart>
+              </div>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
+              <div className="chart__body">
+                <h2>Scatter Chart</h2>
+                <ScatterChart width={600} height={400} data={filteredData}>
+                  <Scatter
+                    data={filteredData}
+                    dataKey="likelihood"
+                    fill="#8884d8"
+                  />
+                </ScatterChart>
+              </div>
+            </Col>
+
+            <Col>
+              <div className="chart__body">
+                <h2>Area Chart</h2>
+                <AreaChart width={600} height={400} data={filteredData}>
+                  <Area type="monotone" dataKey="intensity" fill="#8884d8" />
+                </AreaChart>
+              </div>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
+              <div className="chart__body">
+                <h2>Relevance Radar Chart</h2>
+                <RadarChart
+                  outerRadius={150}
+                  width={600}
+                  height={400}
+                  data={filteredData}
+                >
+                  <PolarGrid />
+                  <PolarAngleAxis dataKey="sector" />
+                  <PolarRadiusAxis angle={30} domain={[0, 10]} />
+                  <Radar
+                    name="Relevance"
+                    dataKey="relevance"
+                    stroke="#8884d8"
+                    fill="#8884d8"
+                    fillOpacity={0.6}
+                  />
+                </RadarChart>
+              </div>
+            </Col>
+          </Row>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Home;
+
+
+
+
+
+body{
+    display: flex;
+    color: white;
+       background-color: black;
+    
+    
+}
+
+.outer__main__box{
+    display: flex;
+    flex-direction: row;
+  
+   
+    background-color: black;
+    width: 999px;
+   
+    padding: 40px;
+   
+}
+.filter__box{
+    display: flex;
+   padding: 20px;
+   justify-content: center;
+   align-items: center;
+  
+  
+}
+
+.chart__body{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border: 1px solid white;
+    box-shadow: white 20px;
+}
+
+.recharts-wrapper{
+    display: flex;
+    flex-direction: col;
+    justify-content: center;
+    width: 400px;
+   
+}
+
+/* Home.css */
+
+.filter__box {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  align-items: flex-start;
+}
+
+.filter__box__items {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.filter__box__items label {
+  margin-bottom: 5px;
+}
+
+.filter__box__items select {
+  width: 200px;
+  margin-right: 10px;
+}
+
+.filter__box__items button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.filter__box__items button:hover {
+  background-color: #0056b3;
+}
+
+
+

@@ -1,0 +1,40 @@
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.signup-container .box {
+  width: 400px;
+  margin: auto;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 20px;
+  background-color: white;
+   border: 1px solid white;
+  box-shadow: 0 0 20px white;
+  
+ 
+}
+
+.signup-container .button-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+.button-center{
+    margin-right: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.heading {
+  color: black;
+  display: flex;
+  justify-content: center;
+  padding: 4px;
+}
+
+.signup-container .button-center button {
+  margin-right: 10px;
+}

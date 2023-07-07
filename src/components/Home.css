@@ -1,0 +1,75 @@
+/* Home.css */
+
+body {
+  display: flex;
+  color: white;
+  background-color: black;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.outer__main__box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: black;
+  padding: 40px;
+}
+
+.filter__box {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  align-items: flex-start;
+}
+
+.filter__box__items {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.filter__box__items label {
+  margin-bottom: 5px;
+}
+
+.filter__box__items select,
+.filter__box__items button {
+  width: 200px;
+  margin-right: 10px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.filter__box__items button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.filter__box__items button:hover {
+  background-color: #0056b3;
+}
+
+.chart__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  border: 1px solid white;
+  box-shadow: 0 0 20px white;
+  padding: 10px;
+}
+
+.chart__body h2{
+    padding: 20px;
+}
+
+
+.charts__box h1{
+    display: flex;
+    justify-content: center;
+}
