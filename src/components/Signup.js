@@ -13,7 +13,7 @@ const Signup = () => {
   const [number, setNumber] = useState("");
   const [flag, setFlag] = useState(false);
   const [otp, setOtp] = useState("");
-  const [confirmObj, setConfirmObj] = useState(null); // Add confirmObj state
+  const [confirmObj, setConfirmObj] = useState(null); 
   const { setUpRecaptcha } = useUserAuth();
   const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ const Signup = () => {
     try {
       const response = await setUpRecaptcha(number);
       console.log(response);
-      setConfirmObj(response); // Store confirmationResult in confirmObj state
+      setConfirmObj(response);
       setFlag(true);
     } catch (err) {
       setError(err.message);
@@ -38,7 +38,7 @@ const Signup = () => {
     console.log(otp);
     if (otp === "" || otp === null) return;
     try {
-      const credential = await confirmObj.confirm(otp); // Use confirmObj to confirm the OTP
+      const credential = await confirmObj.confirm(otp); 
       console.log(credential);
       navigate("/home");
     } catch (err) {
