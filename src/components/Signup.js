@@ -5,6 +5,8 @@ import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { useUserAuth } from "../context/UserAuthContext.js";
 import { signInWithPhoneNumber } from "firebase/auth";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { auth } from "../firebase.js";
 import "./Signup.css";
 
@@ -27,6 +29,7 @@ const Signup = () => {
       console.log(response);
       setConfirmObj(response);
       setFlag(true);
+      toast.success("OTP sent successfully!");
     } catch (err) {
       setError(err.message);
     }
@@ -40,7 +43,9 @@ const Signup = () => {
     try {
       const credential = await confirmObj.confirm(otp); 
       console.log(credential);
-      navigate("/home");
+     
+     navigate("/home")
+      
     } catch (err) {
       setError(err.message);
     }
@@ -48,6 +53,7 @@ const Signup = () => {
 
   return (
     <>
+      <ToastContainer />
       <div className="signup-container">
         <div className="p-4 box">
           <h2 className="heading ">Hey User !</h2>

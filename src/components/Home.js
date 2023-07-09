@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Home.css";
+import { toast } from "react-toastify";
 import {
   BarChart,
   Bar,
@@ -59,6 +60,7 @@ const Home = () => {
       const limitedData = response.data.slice(0, 35);
       setFilteredData(limitedData);
       setOriginalData(limitedData); // Update the state with the data from the response
+      toast.success("Welcome to Dashboard");
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -90,6 +92,7 @@ const Home = () => {
     try {
       await logOut();
       navigate("/");
+      toast.success("Logout successful");
     } catch (error) {
       console.log(error.message);
     }
@@ -172,8 +175,8 @@ const Home = () => {
               <div className="chart__body">
                 <h2>Energy Intensity by Sector</h2>
                 <BarChart width={600} height={400} data={filteredData}>
-                  <Bar dataKey="intensity" fill="#8884d8" />
-                  <Bar dataKey="likelihood" fill="#C70039" />
+                  <Bar dataKey="intensity" fill="#8884d8" name="Intensity" />
+                  <Bar dataKey="likelihood" fill="#C70039" name="Likelihood" />
                   <Legend />
                 </BarChart>
               </div>
@@ -193,8 +196,18 @@ const Home = () => {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="relevance" stroke="#8884d8" />
-                  <Line type="monotone" dataKey="likelihood" stroke="#82ca9d" />
+                  <Line
+                    type="monotone"
+                    dataKey="relevance"
+                    stroke="#8884d8"
+                    name="Relevance"
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="likelihood"
+                    stroke="orange"
+                    name="Likelihood"
+                  />
                 </LineChart>
               </div>
             </Col>
@@ -218,8 +231,8 @@ const Home = () => {
                   <Radar
                     name="Likelihood"
                     dataKey="relevance"
-                    stroke="#8884d8"
-                    fill="#8884d8"
+                    stroke="orange"
+                    fill="orange"
                     fillOpacity={0.6}
                   />
                   <Radar
@@ -227,7 +240,7 @@ const Home = () => {
                     dataKey="likelihood"
                     stroke="#8884d8"
                     fill="#8884d8"
-                    fillOpacity={0.6}
+                    fillOpacity={0.9}
                   />
                   <Legend />
                   <Tooltip />
@@ -239,8 +252,18 @@ const Home = () => {
               <div className="chart__body">
                 <h2>Likelihood by Sector</h2>
                 <LineChart width={600} height={400} data={filteredData}>
-                  <Line type="monotone" dataKey="likelihood" stroke="#8884d8" />
-                  <Line type="monotone" dataKey="relevance" stroke="#8884d8" />
+                  <Line
+                    type="monotone"
+                    dataKey="likelihood"
+                    stroke="#8884d8"
+                    name="Likelihood"
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="relevance"
+                    stroke="red"
+                    name="Relevance"
+                  />
                   <Legend />
                   <Tooltip />
                 </LineChart>
@@ -254,14 +277,16 @@ const Home = () => {
                 <h2>Scatter Chart</h2>
                 <ScatterChart width={600} height={400} data={filteredData}>
                   <Scatter
+                    name="Likelihood"
                     data={filteredData}
                     dataKey="likelihood"
                     fill="#8884d8"
                   />
                   <Scatter
+                    name="Relevance"
                     data={filteredData}
                     dataKey="relevance"
-                    fill="#8884d8"
+                    fill="orange"
                   />
                   <Legend />
                   <Tooltip />
@@ -273,8 +298,18 @@ const Home = () => {
               <div className="chart__body">
                 <h2>Area Chart</h2>
                 <AreaChart width={600} height={400} data={filteredData}>
-                  <Area type="monotone" dataKey="relevance" fill="#8884d8" />
-                  <Area type="monotone" dataKey="likelihood" fill="#8884d8" />
+                  <Area
+                    type="monotone"
+                    dataKey="relevance"
+                    fill="#8884d8"
+                    name="Relevance"
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="likelihood"
+                    fill="blue"
+                    name="Likelihood"
+                  />
                   <Legend />
                   <Tooltip />
                 </AreaChart>
@@ -297,8 +332,18 @@ const Home = () => {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="relevance" stroke="#8884d8" />
-                  <Line type="monotone" dataKey="sector" stroke="#82ca9d" />
+                  <Line
+                    type="monotone"
+                    dataKey="relevance"
+                    stroke="yellow"
+                    name="Relevance"
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="sector"
+                    stroke="#82ca9d"
+                    name="Sector"
+                  />
                 </LineChart>
               </div>
             </Col>
@@ -316,7 +361,7 @@ const Home = () => {
                 >
                   <RadialBar
                     minAngle={15}
-                    label={{ fill: "#666", position: "insideStart" }}
+                    label={{ fill: "#333", position: "insideStart" }}
                     background
                     clockWise={true}
                     dataKey="likelihood"
@@ -328,6 +373,7 @@ const Home = () => {
                     layout="vertical"
                     verticalAlign="middle"
                     align="right"
+                    name="Likelihood"
                   />
                   <Legend />
                   <Tooltip />
@@ -342,8 +388,19 @@ const Home = () => {
                 <h2>Line Chart</h2>
                 <LineChart width={600} height={400} data={filteredData}>
                   {/* <Line type="monotone" dataKey="intensity" stroke="#8884d8" /> */}
-                  <Line type="monotone" dataKey="relevance" stroke="#8884d8" />
-                  
+                  <Line
+                    type="monotone"
+                    dataKey="relevance"
+                    stroke="#8884d8"
+                    name="Relevance"
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="likelihood"
+                    stroke="blue"
+                    name="Relevance"
+                  />
+
                   <Tooltip />
                   <Legend />
                 </LineChart>
@@ -354,8 +411,8 @@ const Home = () => {
               <div className="chart__body">
                 <h2>Bar Chart</h2>
                 <BarChart width={600} height={400} data={filteredData}>
-                  <Bar dataKey="likelihood" fill="#8884d8" />
-                  <Bar dataKey="relevance" fill="#FFC300" />
+                  <Bar dataKey="likelihood" fill="#8884d8" name="Likelihood" />
+                  <Bar dataKey="relevance" fill="#FFC300" name="Relevance" />
                   <Tooltip />
                   <Legend />
                 </BarChart>
