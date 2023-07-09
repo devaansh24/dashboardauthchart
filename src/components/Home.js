@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import data from "../filedata/jsondata";
+import React, { useState, useEffect } from "react";
 import "./Home.css";
 import {
   BarChart,
@@ -19,37 +18,73 @@ import {
   Radar,
   Legend,
   Tooltip,
+  RadialBar,
+  RadialBarChart,
+ 
+  CartesianGrid,
+  XAxis,
+  YAxis,
 } from "recharts";
 import { Row, Col, Button } from "react-bootstrap";
-import { useUserAuth } from "../context/UserAuthContext";
+import { useUserAuth } from "../context/UserAuthContext.js";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Home = () => {
   const { logOut } = useUserAuth();
   const navigate = useNavigate();
-  const [filteredData, setFilteredData] = useState(data);
+  const [filteredData, setFilteredData] = useState([]);
   const [selectedSource, setSelectedSource] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedRelevance, setSelectedRelevance] = useState("");
+  const [originalData, setOriginalData] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get("http://localhost:4000/api/data");
+  //     console.log(response, "response data");
+  //     setFilteredData(response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://localhost:4000/api/data", {});
+      console.log(response, "response data");
+      const limitedData = response.data.slice(0, 35);
+      setFilteredData(limitedData);
+      setOriginalData(limitedData); // Update the state with the data from the response
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   // Apply filters to the data
-const applyFilters = () => {
-  let filtered = data;
 
-  if (selectedSource) {
-    filtered = filtered.filter((item) => item.source === selectedSource);
-  }
+  const applyFilters = () => {
+    let filtered = [...originalData]; // Use originalData as a reference
 
-  if (selectedCountry) {
-    filtered = filtered.filter((item) => item.country === selectedCountry);
-  }
+    if (selectedSource) {
+      filtered = filtered.filter((item) => item.source === selectedSource);
+    }
 
-  if (selectedRelevance) {
-    filtered = filtered.filter((item) => item.relevance === selectedRelevance);
-  }
+    if (selectedCountry) {
+      filtered = filtered.filter((item) => item.country === selectedCountry);
+    }
 
-  setFilteredData(filtered);
-};
+    if (selectedRelevance) {
+      filtered = filtered.filter(
+        (item) => item.relevance === selectedRelevance
+      );
+    }
+
+    setFilteredData(filtered);
+  };
 
   const handleLogout = async () => {
     try {
@@ -59,11 +94,14 @@ const applyFilters = () => {
       console.log(error.message);
     }
   };
-    const uniqueCountries = [...new Set(data.map((item) => item.country))];
-    const uniqueSources = [...new Set(data.map((item) => item.source))];
-    const uniqueRelevanceLevels = [
-      ...new Set(data.map((item) => item.relevance)),
-    ];
+
+  const uniqueCountries = [
+    ...new Set(filteredData.map((item) => item?.country)),
+  ];
+  const uniqueSources = [...new Set(filteredData.map((item) => item?.source))];
+  const uniqueRelevanceLevels = [
+    ...new Set(filteredData.map((item) => item?.relevance)),
+  ];
 
   return (
     <>
@@ -127,24 +165,43 @@ const applyFilters = () => {
             <button onClick={applyFilters}>Apply Filters</button>
           </div>
         </div>
-
+        <h1>Dashboard</h1>
         <div className="charts__box">
-          <h1>Dashboard</h1>
-
           <Row>
             <Col>
               <div className="chart__body">
                 <h2>Energy Intensity by Sector</h2>
                 <BarChart width={600} height={400} data={filteredData}>
                   <Bar dataKey="intensity" fill="#8884d8" />
+                  <Bar dataKey="likelihood" fill="#C70039" />
                   <Legend />
                 </BarChart>
               </div>
             </Col>
-          </Row>
-        </div>
 
-        <div className="charts__box">
+            <Col>
+              <div className="chart__body">
+                <h2>Energy Intensity by Sector</h2>
+                <LineChart
+                  width={730}
+                  height={250}
+                  data={filteredData}
+                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey="relevance" stroke="#8884d8" />
+                  <Line type="monotone" dataKey="likelihood" stroke="#82ca9d" />
+                </LineChart>
+              </div>
+            </Col>
+          </Row>
+          {/* </div> */}
+
+          {/* <div className="charts__box"> */}
           <Row>
             <Col>
               <div className="chart__body">
@@ -159,8 +216,15 @@ const applyFilters = () => {
                   <PolarAngleAxis dataKey="sector" />
                   <PolarRadiusAxis angle={30} domain={[0, 10]} />
                   <Radar
-                    name="Relevance"
+                    name="Likelihood"
                     dataKey="relevance"
+                    stroke="#8884d8"
+                    fill="#8884d8"
+                    fillOpacity={0.6}
+                  />
+                  <Radar
+                    name="Relevance"
+                    dataKey="likelihood"
                     stroke="#8884d8"
                     fill="#8884d8"
                     fillOpacity={0.6}
@@ -176,6 +240,7 @@ const applyFilters = () => {
                 <h2>Likelihood by Sector</h2>
                 <LineChart width={600} height={400} data={filteredData}>
                   <Line type="monotone" dataKey="likelihood" stroke="#8884d8" />
+                  <Line type="monotone" dataKey="relevance" stroke="#8884d8" />
                   <Legend />
                   <Tooltip />
                 </LineChart>
@@ -193,6 +258,11 @@ const applyFilters = () => {
                     dataKey="likelihood"
                     fill="#8884d8"
                   />
+                  <Scatter
+                    data={filteredData}
+                    dataKey="relevance"
+                    fill="#8884d8"
+                  />
                   <Legend />
                   <Tooltip />
                 </ScatterChart>
@@ -203,7 +273,8 @@ const applyFilters = () => {
               <div className="chart__body">
                 <h2>Area Chart</h2>
                 <AreaChart width={600} height={400} data={filteredData}>
-                  <Area type="monotone" dataKey="intensity" fill="#8884d8" />
+                  <Area type="monotone" dataKey="relevance" fill="#8884d8" />
+                  <Area type="monotone" dataKey="likelihood" fill="#8884d8" />
                   <Legend />
                   <Tooltip />
                 </AreaChart>
@@ -214,20 +285,53 @@ const applyFilters = () => {
           <Row>
             <Col>
               <div className="chart__body">
+                <h2>Energy Intensity by Sector</h2>
+                <LineChart
+                  width={730}
+                  height={250}
+                  data={filteredData}
+                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey="relevance" stroke="#8884d8" />
+                  <Line type="monotone" dataKey="sector" stroke="#82ca9d" />
+                </LineChart>
+              </div>
+            </Col>
+            <Col>
+              <div className="chart__body">
                 <h2>Relevance by Sector</h2>
-                <PieChart width={600} height={400}>
-                  <Pie
-                    data={filteredData}
-                    dataKey="relevance"
-                    nameKey="sector"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={100}
-                    fill="#8884d8"
+                <RadialBarChart
+                  width={900}
+                  height={450}
+                  innerRadius="10%"
+                  outerRadius="80%"
+                  data={filteredData}
+                  startAngle={180}
+                  endAngle={0}
+                >
+                  <RadialBar
+                    minAngle={15}
+                    label={{ fill: "#666", position: "insideStart" }}
+                    background
+                    clockWise={true}
+                    dataKey="likelihood"
+                  />
+                  <Legend
+                    iconSize={10}
+                    width={120}
+                    height={140}
+                    layout="vertical"
+                    verticalAlign="middle"
+                    align="right"
                   />
                   <Legend />
                   <Tooltip />
-                </PieChart>
+                </RadialBarChart>
               </div>
             </Col>
           </Row>
@@ -237,7 +341,9 @@ const applyFilters = () => {
               <div className="chart__body">
                 <h2>Line Chart</h2>
                 <LineChart width={600} height={400} data={filteredData}>
-                  <Line type="monotone" dataKey="intensity" stroke="#8884d8" />
+                  {/* <Line type="monotone" dataKey="intensity" stroke="#8884d8" /> */}
+                  <Line type="monotone" dataKey="relevance" stroke="#8884d8" />
+                  
                   <Tooltip />
                   <Legend />
                 </LineChart>
@@ -249,6 +355,7 @@ const applyFilters = () => {
                 <h2>Bar Chart</h2>
                 <BarChart width={600} height={400} data={filteredData}>
                   <Bar dataKey="likelihood" fill="#8884d8" />
+                  <Bar dataKey="relevance" fill="#FFC300" />
                   <Tooltip />
                   <Legend />
                 </BarChart>

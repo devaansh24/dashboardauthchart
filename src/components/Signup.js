@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { Form, Alert, Button } from "react-bootstrap";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
-import { useUserAuth } from "../context/UserAuthContext";
+import { useUserAuth } from "../context/UserAuthContext.js";
 import { signInWithPhoneNumber } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth } from "../firebase.js";
 import "./Signup.css";
 
 const Signup = () => {

@@ -1,6 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "dependencies": {
     "@firebase/firestore": "^4.0.0",
@@ -8,6 +9,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.3.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "firebase": "^9.23.0",
     "firestore": "^1.1.6",

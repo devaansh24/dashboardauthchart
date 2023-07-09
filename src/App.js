@@ -1,13 +1,13 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
+import Login from "./components/Login.js";
+import Signup from "./components/Signup.js";
 import { Container, Row, Col } from "react-bootstrap";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute.js";
 import "./App.css";
-import { UserAuthContextProvider } from "./context/UserAuthContext";
-import Home from "./components/Home";
-import data from "./filedata/jsondata";
+import { UserAuthContextProvider } from "./context/UserAuthContext.js";
+import Home from "./components/Home.js";
+
 
 const App = () => {
   return (
@@ -20,7 +20,7 @@ const App = () => {
                 path="/home"
                 element={
                   <ProtectedRoute>
-                    <Home data={data} />
+                    <Home />
                   </ProtectedRoute>
                 }
               />
