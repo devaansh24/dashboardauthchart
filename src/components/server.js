@@ -10,7 +10,7 @@ const connection = createConnection({
 //   host: "localhost",
   user: "root",
   password: "mysql@123",
-  database: "dashboard",
+  database: "dashboardauth",
 });
 
 // Connect to the database
@@ -22,31 +22,18 @@ connection.connect((err) => {
   }
 });
 
-// Define your routes here
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
 
-// app.get("/api/data", (req, res) => {
-//   const query = "SELECT * FROM jsondata";
-//   connection.query(query, (err, results) => {
-//     if (err) {
-//       console.error("Error fetching data:", err);
-//       res.status(500).json({ error: "Internal Server Error" });
-//     } else {
-//       res.json(results);
-//     }
-//   });
-// });
+
+
 
 app.get("/api/data", (req, res) => {
-  const page = parseInt(req.query.page) || 1; // Get the requested page number from the query parameters
-  const pageSize = parseInt(req.query.pageSize) || 2; // Get the requested page size from the query parameters
+  const page = parseInt(req.query.page) || 1; 
+  const pageSize = parseInt(req.query.pageSize) || 20; 
 
-  const startIndex = (page - 1) * pageSize; // Calculate the start index for the current page
-  const endIndex = page * pageSize; // Calculate the end index for the current page
+  const startIndex = (page - 1) * pageSize; 
+  const endIndex = page * pageSize; 
 
-  const query = "SELECT * FROM jsondata LIMIT ?, ?"; // Use the LIMIT clause to retrieve a subset of data based on the page number and size
+  const query = "SELECT * FROM bigdata LIMIT ?, ?"; 
 
   connection.query(query, [startIndex, pageSize], (err, results) => {
     if (err) {

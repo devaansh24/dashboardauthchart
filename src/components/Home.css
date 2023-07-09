@@ -1,43 +1,45 @@
-/* Home.css */
-
 body {
   display: flex;
   color: white;
   background-color: black;
   justify-content: center;
   align-items: center;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
 .outer__main__box {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   background-color: black;
   padding: 40px;
 }
 
 .filter__box {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center; 
   padding: 20px;
-  align-items: flex-start;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
 }
 
 .filter__box__items {
   display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-  justify-content: center;
+  flex-direction: row;
+  align-items: center;
 }
 
 .filter__box__items label {
-  margin-bottom: 5px;
+  margin-right: 10px;
 }
 
 .filter__box__items select,
 .filter__box__items button {
-  width: 200px;
   margin-right: 10px;
   padding: 5px;
   border-radius: 5px;
@@ -58,18 +60,72 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px;
+  margin-bottom: 30px;
   border: 1px solid white;
   box-shadow: 0 0 20px white;
   padding: 10px;
+  transition: transform 0.7s;
+}
+.chart__body:hover {
+  border-color: #007bff;
+  box-shadow: 0 0 20px #007bff;
 }
 
-.chart__body h2{
-    padding: 20px;
+.chart__body h2 {
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
+.charts__box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
 
-.charts__box h1{
-    display: flex;
-    justify-content: center;
+.charts__box h1 {
+  width: 100%;
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.logout__button {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.hello {
+  color: black;
+}
+
+.apply__button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  padding: 7px 20px;
+  border-radius: 5px;
+}
+
+.apply__button:hover {
+  background-color: #0056b3;
+}
+.dashboard__heading {
+  text-align: left;
+  font-size: 24px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.button-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.button-center .spacer {
+  width: 10px;
 }

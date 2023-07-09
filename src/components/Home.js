@@ -21,7 +21,6 @@ import {
   Tooltip,
   RadialBar,
   RadialBarChart,
- 
   CartesianGrid,
   XAxis,
   YAxis,
@@ -44,32 +43,26 @@ const Home = () => {
     fetchData();
   }, []);
 
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get("http://localhost:4000/api/data");
-  //     console.log(response, "response data");
-  //     setFilteredData(response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  // };
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("http://localhost:4000/api/data", {});
-      console.log(response, "response data");
-      const limitedData = response.data.slice(0, 35);
-      setFilteredData(limitedData);
-      setOriginalData(limitedData); // Update the state with the data from the response
-      toast.success("Welcome to Dashboard");
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+
+   const fetchData = async () => {
+     try {
+       const response = await axios.get("http://localhost:4000/api/data", {});
+       console.log(response, "response data");
+
+       const { data } = response.data; 
+
+       setFilteredData(data);
+       setOriginalData(data); 
+       toast.success("Welcome to Dashboard");
+     } catch (error) {
+       console.error("Error fetching data:", error);
+     }
+   };
 
   // Apply filters to the data
 
   const applyFilters = () => {
-    let filtered = [...originalData]; // Use originalData as a reference
+    let filtered = [...originalData];
 
     if (selectedSource) {
       filtered = filtered.filter((item) => item.source === selectedSource);
@@ -162,13 +155,18 @@ const Home = () => {
                       {relevance}
                     </option>
                   ))}
+                ̉̉̉
               </select>
             </label>
-
-            <button onClick={applyFilters}>Apply Filters</button>
+          </div>
+          <div>
+            <h6 className="hello">hello</h6>
+            <button className="apply__button" onClick={applyFilters}>
+              Apply
+            </button>
           </div>
         </div>
-        <h1>Dashboard</h1>
+        <h1 className="dashboard__heading">Dashboard</h1>
         <div className="charts__box">
           <Row>
             <Col>
@@ -198,9 +196,9 @@ const Home = () => {
                   <Legend />
                   <Line
                     type="monotone"
-                    dataKey="relevance"
+                    dataKey="intensity"
                     stroke="#8884d8"
-                    name="Relevance"
+                    name="Intensity"
                   />
                   <Line
                     type="monotone"

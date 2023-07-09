@@ -89,11 +89,11 @@ const Signup = () => {
                 onChange={(e) => setOtp(e.target.value)}
               />
             </Form.Group>
-            <div className="button-right">
+            <div className="button-center">
               <Link to="/">
                 <Button variant="secondary">Cancel</Button>
               </Link>
-
+              <div className="spacer" />
               <Button variant="primary" type="submit">
                 Verify OTP
               </Button>

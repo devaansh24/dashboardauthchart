@@ -1,14 +1,34 @@
 .login-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
 }
 
-.login-container a {
-  text-decoration: none;
+.login-heading {
+  font-size: 24px;
+  margin-bottom: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid #000;
+  animation: typewriter 0.5s steps(40) forwards;
+  text-align: center; 
 }
 
-.login-container .d-grid {
+
+.login-button {
   width: 200px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center; 
+}
+
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
